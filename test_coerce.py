@@ -7,6 +7,12 @@ def is_valid_int(char):
         return False
 
 def string_coerce(string):
+    #do initial test for safety
+    test = bool(confusables.is_confusable(string, preferred_aliases=['latin', 'common']))
+
+    if not test:
+        return string
+
     string_chars = []
     for char in string:
         aliases = confusables.is_confusable(char, greedy=False, preferred_aliases=[], allow_digit=False)
@@ -29,7 +35,7 @@ def string_coerce(string):
     return ''.join(coerced)
 
 if __name__ == '__main__':
-    test_strings = ('𐌚cha𝐧')
+    test_strings = ('𐌚chan', '8chan', 'уolo', 'Κiller Quеen')
 
     for string in test_strings:
         result = string_coerce(string)
@@ -37,4 +43,5 @@ if __name__ == '__main__':
 
         print('Original is unsafe: {}'.format(str(test_original)))
         print('{} -> {}'.format(string, result))
-        print(confusables.is_confusable(result, preferred_aliases=['latin', 'common']))
+        test_new = bool(confusables.is_confusable(result, preferred_aliases=['latin', 'common']))
+        print('Coersion is unsafe: {}'.format(str(test_new)))
