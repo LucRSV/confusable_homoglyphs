@@ -14,7 +14,6 @@ def string_coerce(string):
 
     coerced = []
     for char in string_chars:
-        print(char)
         if char['alias'] == 'LATIN':
             coerced.append(char['character'])
 
@@ -30,6 +29,12 @@ def string_coerce(string):
     return ''.join(coerced)
 
 if __name__ == '__main__':
-    test_str = '𐌚cha𝐧'
-    result = string_coerce(test_str)
-    print('{} -> {}'.format(test_str, result))
+    test_strings = ('𐌚cha𝐧', 'рeeрeeрooрies')
+
+    for string in test_strings:
+        result = string_coerce(string)
+        test_original = bool(confusables.is_confusable(string, preferred_aliases=['latin', 'common']))
+
+        print('Original is unsafe: {}'.format(str(test_original)))
+        print('{} -> {}'.format(string, result))
+        print(confusables.is_confusable(result, preferred_aliases=['latin', 'common']))
