@@ -10,6 +10,12 @@ class Found(Exception):
     pass
 
 
+def is_valid_int(char):
+    try:
+        return isinstance(int(char), int)
+    except:
+        return False
+
 def is_mixed_script(string, allowed_aliases=['COMMON']):
     """Checks if ``string`` contains mixed-scripts content, excluding script
     blocks aliases in ``allowed_aliases``.
@@ -38,7 +44,7 @@ def is_mixed_script(string, allowed_aliases=['COMMON']):
     return len(cats) > 1
 
 
-def is_confusable(string, greedy=False, preferred_aliases=[]):
+def is_confusable(string, greedy=False, preferred_aliases=[], allow_digit=True):
     """Checks if ``string`` contains characters which might be confusable with
     characters from ``preferred_aliases``.
 
@@ -100,6 +106,9 @@ def is_confusable(string, greedy=False, preferred_aliases=[]):
             # it's safe if the character might be confusable with homoglyphs from other
             # categories than our preferred categories (=aliases)
             continue
+        if allow_digit and is_valid_int(char):
+            continue
+
         found = confusables_data.get(char)
         # character λ is considered confusable if λ can be confused with a character from
         # preferred_aliases, e.g. if 'LATIN', 'ρ' is confusable with 'p' from LATIN.
