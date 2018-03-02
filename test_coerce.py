@@ -29,7 +29,7 @@ def string_coerce(string):
     return ''.join(coerced)
 
 if __name__ == '__main__':
-    test_strings = ('𐌚cha𝐧', 'рeeрeeрooрies')
+    test_strings = ('𐌚cha𝐧')
 
     for string in test_strings:
         result = string_coerce(string)
